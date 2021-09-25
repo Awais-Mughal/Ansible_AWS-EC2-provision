@@ -1,0 +1,25 @@
+---
+
+- name: Firewall Setting
+  ec2_group:
+    name: "{{ group_name }}"
+    description: Allowing traffic on port 80 and 22
+    region: "{{region}}"      
+    rules:
+      - proto: tcp
+        ports: 
+          - 80 
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+    vpc_id: "{{ vpc_id }}"        
+    aws_access_key: "{{ access_key }}"
+    aws_secret_key: "{{ secret_key }}"
+
+
+                  

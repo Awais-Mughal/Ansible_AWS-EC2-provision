@@ -1,0 +1,39 @@
+            
+- name: launching AWS instance using Ansible
+  ec2:
+    key_name: testkey
+    instance_type: t2.micro
+    image: ami-0c1a7f89451184c8b
+    user_data: "{{ lookup('file','lb.sh') }}"
+    region: "{{ region }}"
+    zone: "{{ zone }}"
+    wait: yes
+    wait_timeout: 500
+    volumes:
+      - device_name: /dev/sda1
+        volume_size: "{{ volume_size }}"
+        delete_on_termination: true    
+    count: 1
+    vpc_subnet_id: "{{ subnet_id }}"
+    assign_public_ip: yes
+    group: "{{ group_name }}"
+    aws_access_key: "{{ access_key }}"
+    aws_secret_key: "{{ secret_key }}" 
+  register: ec2
+
+- name: waiting for ssh
+  local_action:
+    module: wait_for
+    host: "{{ item.public_ip }}"
+    port: 22
+    delay: 10
+    timeout: 120
+  loop: "{{ec2.instances}}" 
+
+    
+- name:  Adding to host file
+  lineinfile:
+    path: hosts
+    line: "[server{{item.ami_launch_index}}]\n{{ item.public_ip }};"
+  loop: "{{ec2.instances}}"
+

@@ -1,0 +1,42 @@
+---
+
+ 
+  - name: Apache install
+    apt:
+      name:
+        - apache2
+      state: latest	
+      update_cache: yes	
+
+
+  - name: Copy Html file
+    copy:
+      src: ./index1.html
+      dest: /var/www/html/index.html         
+
+  - name: Copy Html file
+    copy:
+      src: ./index2.html
+      dest: /var/www/html/index.html
+
+
+  - name: Installing Nginx
+    apt:
+      name:
+        - nginx
+      update_chache: yes 
+
+  - name: Copying Load Balancing File
+    copy:
+      src: ./nginx.conf
+      dest: /etc/nginx/sites-enabled/default
+
+  - name: restarting nginx
+    service:
+      name:
+        nginx
+      state:
+         restarted
+
+
+

@@ -1,0 +1,9 @@
+---
+
+- name: Security Group and EC2 Instance      
+  hosts: localhost
+  roles:
+    - SecurityGroup
+    - EC2_Instance
+    - EC2forNginx
+ 
