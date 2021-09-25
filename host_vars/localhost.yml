@@ -2,8 +2,8 @@ group_name: Ansible_test_group
 region: ap-south-1      
 vpc_id: vpc-9d45bcf6
 subnet_id: subnet-6b608600
-access_key: AKIAR7AFISKAAZH2XUOC
-secret_key: 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        
+access_key: 
+secret_key:         
 zone: ap-south-1a
 volume_size: 8
 count: 2
